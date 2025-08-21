@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Menna AbdElGawad – Interactive Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Interactive portfolio of Menna AbdElGawad – CS student (AI & Data Science) & Frontend enthusiast." />
+  <style>
+    /* Custom animations and effects */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+    }
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.33); }
+      40%, 50% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.33); }
+    }
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      0%, 50% { border-color: transparent; }
+      51%, 100% { border-color: #10b981; }
+    }
+    
+    .float { animation: float 6s ease-in-out infinite; }
+    .glow { animation: glow 2s ease-in-out infinite; }
+    .gradient-animation { 
+      background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+      background-size: 400% 400%;
+      animation: gradient-shift 8s ease infinite;
+    }
+    .pulse-ring {
+      position: absolute;
+      border: 3px solid #10b981;
+      border-radius: 50%;
+      animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+    }
+    .typewriter {
+      overflow: hidden;
+      border-right: 3px solid #10b981;
+      white-space: nowrap;
+      animation: typewriter 3s steps(40) 1s forwards, blink 1s infinite;
+      width: 0;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .dark .glass {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .skill-card:hover {
+      transform: translateY(-5px) scale(1.05);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .project-card {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .project-card:hover {
+      transform: rotateY(10deg) translateZ(20px);
+    }
+    .progress-bar {
+      width: 0%;
+      transition: width 2s ease-out;
+    }
+    .progress-bar.animate {
+      width: var(--progress);
+    }
+    #typewriter-name, #cursor {
+      display: inline;
+    }
+
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white antialiased overflow-x-hidden">
+  <!-- Animated background particles -->
+  <div class="fixed inset-0 z-0">
+    <div id="particles" class="absolute inset-0"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          M.A
+        </div>
+        <div class="hidden md:flex space-x-8" id="navLinks">
+          <a href="#home" class="nav-link text-white/80 hover:text-cyan-400 transition-colors duration-300">Home</a>
+          <a href="#about" class="nav-link text-white/80 hover:text-cyan-400 transition-colors duration-300">About</a>
+          <a href="#skills" class="nav-link text-white/80 hover:text-cyan-400 transition-colors duration-300">Skills</a>
+          <a href="#projects" class="nav-link text-white/80 hover:text-cyan-400 transition-colors duration-300">Projects</a>
+          <a href="#contact" class="nav-link text-white/80 hover:text-cyan-400 transition-colors duration-300">Contact</a>
+        </div>
+        <button id="langBtn" class="px-4 py-2 glass rounded-full text-sm hover:bg-white/20 transition-all duration-300">
+          العربية
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center">
+    <div class="text-center z-10 px-6 max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <!-- Text Content -->
+        <div class="text-left md:order-1 order-2">
+          <div class="mb-6">
+            <div class="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-6">
+              <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span class="text-sm" data-i18n="badge">Available for opportunities</span>
+            </div>
+          </div>
+
+          <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <span id="typewriter-name" class="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent inline-block">
+            </span><span id="cursor" class="animate-pulse">|</span>
+          </h1>
+          
+          <p class="text-lg md:text-xl text-white/80 mb-8" data-i18n="role">
+            CS Student • AI & Data Science • Frontend Developer
+          </p>
+
+          <div class="flex flex-wrap gap-4 mb-12">
+            <button onclick="scrollToProjects()" class="group px-8 py-4 glass rounded-full hover:bg-gradient-to-r hover:from-cyan-500 hover:to-purple-500 transition-all duration-300 transform hover:scale-105">
+              <span data-i18n="viewWork">View My Work</span>
+            </button>
+            <button onclick="scrollToContact()" class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+              <span data-i18n="getInTouch">Get In Touch</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Avatar -->
+        <div class="relative md:order-2 order-1 flex justify-center">
+          <div class="w-80 h-80 rounded-full gradient-animation relative">
+            <div class="pulse-ring w-80 h-80"></div>
+            <div class="pulse-ring w-80 h-80" style="animation-delay: 1s;"></div>
+            <div class="w-72 h-72 bg-white/10 rounded-full absolute top-4 left-4 flex items-center justify-center overflow-hidden">
+              <!-- Replace this with your actual photo -->
+              <img id="profilePhoto" src="C:\Users\user\Desktop\Portfolio\Menna.jpg" alt="Menna AbdElGawad Fathi" class="w-full h-full object-cover rounded-full transition-opacity duration-500">
+              <!-- Fallback initials -->
+              <span id="initials" class="text-6xl font-bold text-white hidden">MAF</span>
+            </div>
+            
+            <!-- Photo upload button (for development/testing) -->
+            <div class="absolute bottom-4 right-4">
+              <input type="file" id="photoInput" accept="image/*" class="hidden">
+              <button onclick="document.getElementById('photoInput').click()" 
+                      class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xl hover:scale-110 transition-transform duration-300">
+                📷
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Animated scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div class="w-1 h-8 bg-gradient-to-b from-cyan-400 to-transparent rounded-full"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="relative py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          <span data-i18n="aboutTitle">About Me</span>
+        </h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <div class="glass p-8 rounded-2xl float">
+            <p class="text-lg leading-relaxed text-white/90" data-i18n="aboutText">
+              I'm a passionate Computer Science student specializing in AI and Data Science. I love creating beautiful, 
+              functional web experiences and turning complex data into meaningful insights. Currently exploring the 
+              frontiers of machine learning and modern web development.
+            </p>
+          </div>
+          
+          <!-- Skills progress bars -->
+          <div class="space-y-4">
+            <div class="skill-progress">
+              <div class="flex justify-between mb-2">
+                <span class="text-cyan-400 font-medium">Frontend Development</span>
+                <span class="text-white/60">85%</span>
+              </div>
+              <div class="w-full bg-white/10 rounded-full h-2">
+                <div class="progress-bar bg-gradient-to-r from-cyan-400 to-purple-400 h-2 rounded-full" style="--progress: 85%"></div>
+              </div>
+            </div>
+            <div class="skill-progress">
+              <div class="flex justify-between mb-2">
+                <span class="text-cyan-400 font-medium">Python & Data Science</span>
+                <span class="text-white/60">80%</span>
+              </div>
+              <div class="w-full bg-white/10 rounded-full h-2">
+                <div class="progress-bar bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full" style="--progress: 80%"></div>
+              </div>
+            </div>
+            <div class="skill-progress">
+              <div class="flex justify-between mb-2">
+                <span class="text-cyan-400 font-medium">Problem Solving</span>
+                <span class="text-white/60">90%</span>
+              </div>
+              <div class="w-full bg-white/10 rounded-full h-2">
+                <div class="progress-bar bg-gradient-to-r from-pink-400 to-yellow-400 h-2 rounded-full" style="--progress: 90%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+          <div class="glass p-6 rounded-2xl text-center transform hover:scale-105 transition-all duration-300">
+            <div class="text-3xl mb-2">🎓</div>
+            <div class="text-2xl font-bold text-cyan-400">3rd Year</div>
+            <div class="text-sm text-white/60">CS Student</div>
+          </div>
+          <div class="glass p-6 rounded-2xl text-center transform hover:scale-105 transition-all duration-300">
+            <div class="text-3xl mb-2">💼</div>
+            <div class="text-2xl font-bold text-purple-400">5+</div>
+            <div class="text-sm text-white/60">Projects</div>
+          </div>
+          <div class="glass p-6 rounded-2xl text-center transform hover:scale-105 transition-all duration-300">
+            <div class="text-3xl mb-2">🌍</div>
+            <div class="text-2xl font-bold text-pink-400">3</div>
+            <div class="text-sm text-white/60">Languages</div>
+          </div>
+          <div class="glass p-6 rounded-2xl text-center transform hover:scale-105 transition-all duration-300">
+            <div class="text-3xl mb-2">🚀</div>
+            <div class="text-2xl font-bold text-yellow-400">∞</div>
+            <div class="text-sm text-white/60">Ambition</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="relative py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <span data-i18n="skillsTitle">Skills & Technologies</span>
+        </h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6" id="skillsGrid">
+        <!-- Skills will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="relative py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-pink-400 to-yellow-400 bg-clip-text text-transparent">
+          <span data-i18n="projectsTitle">Featured Projects</span>
+        </h2>
+        <div class="w-24 h-1 bg-gradient-to-r from-pink-400 to-yellow-400 mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8" id="projectsGrid">
+        <!-- Projects will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="relative py-20 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="mb-16">
+        <h2 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          <span data-i18n="contactTitle">Let's Create Together</span>
+        </h2>
+        <p class="text-xl text-white/80" data-i18n="contactSubtitle">
+          Ready to turn your ideas into reality? Let's talk!
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-start">
+        <div class="space-y-6">
+          <div class="glass p-6 rounded-2xl text-left">
+            <h3 class="text-xl font-bold mb-4 text-cyan-400" data-i18n="getInTouchTitle">Get In Touch</h3>
+            <div class="space-y-4">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full flex items-center justify-center">
+                  📧
+                </div>
+                <div>
+                  <div class="text-sm text-white/60">Email</div>
+                  <div class="text-white">mennaabdelgawaad26@gmail.com</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
+                  📱
+                </div>
+                <div>
+                  <div class="text-sm text-white/60">Phone</div>
+                  <div class="text-white">+20 112 488 7979</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-gradient-to-r from-pink-400 to-yellow-400 rounded-full flex items-center justify-center">
+                  📍
+                </div>
+                <div>
+                  <div class="text-sm text-white/60">Location</div>
+                  <div class="text-white">Cairo, Egypt</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <a href="https://github.com/Menna-AbdElGawad" target="_blank" 
+               class="flex-1 glass p-4 rounded-xl text-center hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+              <div class="text-2xl mb-2">💻</div>
+              <div class="text-sm">GitHub</div>
+            </a>
+            <a href="https://linkedin.com/in/menna-abdelgawad" target="_blank"
+               class="flex-1 glass p-4 rounded-xl text-center hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+              <div class="text-2xl mb-2">💼</div>
+              <div class="text-sm">LinkedIn</div>
+            </a>
+          </div>
+        </div>
+
+        <form class="glass p-8 rounded-2xl space-y-6" id="contactForm">
+          <div>
+            <input type="text" placeholder="Your Name" required
+                   class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-cyan-400 transition-colors duration-300">
+          </div>
+          <div>
+            <input type="email" placeholder="Your Email" required
+                   class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-cyan-400 transition-colors duration-300">
+          </div>
+          <div>
+            <textarea rows="4" placeholder="Your Message" required
+                      class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-cyan-400 transition-colors duration-300"></textarea>
+          </div>
+          <button type="submit" 
+                  class="w-full bg-gradient-to-r from-cyan-500 to-purple-500 py-3 rounded-xl font-medium hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+            <span data-i18n="sendMessage">Send Message</span>
+          </button>
+          <p class="text-xs text-white/40 text-center" data-i18n="formNote">
+            This is a demo form - connect to your preferred email service
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="relative py-12 px-6 border-t border-white/10">
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-4">
+        Menna AbdElGawad Fathi
+      </div>
+      <p class="text-white/60">© <span id="currentYear"></span> All rights reserved. Made with ❤️ and lots of ☕</p>
+    </div>
+  </footer>
+
+  <script>
+    // Data
+    const DATA = {
+      skills: [
+        // Web Development
+        { name: "HTML", icon: "🌐", level: 90 },
+        { name: "CSS", icon: "🎨", level: 85 },
+        { name: "JavaScript", icon: "⚡", level: 80 },
+        { name: "SQL", icon: "🗄️", level: 80 },
+        { name: "Django", icon: "🌱", level: 70 },
+
+        // Programming Languages
+        { name: "C++", icon: "💻", level: 95 },
+        { name: "Java", icon: "☕", level: 80 },
+        { name: "Python", icon: "🐍", level: 85 },
+
+        // CS Fundamentals
+        { name: "OOP", icon: "📦", level: 90 },
+        { name: "Data Structures", icon: "🧩", level: 90 },
+        { name: "Algorithms", icon: "📐", level: 90 },
+
+        // Tools
+        { name: "Git/GitHub", icon: "🔧", level: 85 },
+
+        // Data & AI
+        { name: "AI/ML", icon: "🤖", level: 70 },
+        { name: "Data Analysis", icon: "📊", level: 80 },
+      ],
+
+      projects: [
+        {
+          title: "Smart Budget Tracker",
+          description: "AI-powered personal finance app with predictive analytics and beautiful data visualizations.",
+          tags: ["JavaScript", "Python", "ML", "Charts"],
+          image: "📊",
+          demo: "#",
+          github: "#"
+        },
+        {
+          title: "Islamic Azkar App",
+          description: "Beautiful daily supplications app with smart notifications and personalized reminders.",
+          tags: ["Java", "Android", "SQLite", "UI/UX"],
+          image: "🕌",
+          demo: "#",
+          github: "#"
+        },
+        {
+          title: "Task-Worker Platform",
+          description: "Real-time marketplace connecting freelancers with clients using geolocation and smart matching.",
+          tags: ["Full-stack", "Real-time", "Maps", "Auth"],
+          image: "🤝",
+          demo: "#",
+          github: "#"
+        },
+        {
+          title: "Library Management System",
+          description: "Complete web-based library system with admin dashboard, search, and automated notifications.",
+          tags: ["Django", "PostgreSQL", "Admin", "Search"],
+          image: "📚",
+          demo: "#",
+          github: "#"
+        }
+      ]
+    };
+
+    // Language system
+    const strings = {
+      en: {
+        badge: "Available for opportunities",
+        role: "CS Student • AI & Data Science • Frontend Developer",
+        viewWork: "View My Work",
+        getInTouch: "Get In Touch",
+        aboutTitle: "About Me",
+        aboutText: "I'm a passionate third-year Computer Science student specializing in AI and Data Science. I love creating beautiful, functional web experiences and turning complex data into meaningful insights. Currently exploring the frontiers of machine learning and modern web development.",
+        skillsTitle: "Skills & Technologies",
+        projectsTitle: "Featured Projects",
+        contactTitle: "Let's Create Together",
+        contactSubtitle: "Ready to turn your ideas into reality? Let's talk!",
+        getInTouchTitle: "Get In Touch",
+        sendMessage: "Send Message",
+        formNote: "This is a demo form - connect to your preferred email service"
+      },
+      ar: {
+        badge: "متاحة لفرص العمل",
+        role: "طالبة علوم حاسوب • ذكاء اصطناعي وعلوم البيانات • مطورة واجهات",
+        viewWork: "شاهد أعمالي",
+        getInTouch: "تواصل معي",
+        aboutTitle: "عني",
+        aboutText: "أنا طالبة علوم حاسوب شغوفة في السنة الثالثة متخصصة في الذكاء الاصطناعي وعلوم البيانات. أحب إنشاء تجارب ويب جميلة وعملية وتحويل البيانات المعقدة إلى رؤى مفيدة. أستكشف حالياً حدود التعلم الآلي وتطوير الويب الحديث.",
+        skillsTitle: "المهارات والتقنيات",
+        projectsTitle: "المشاريع المميزة",
+        contactTitle: "لننشئ معاً",
+        contactSubtitle: "مستعد لتحويل أفكارك إلى واقع؟ دعنا نتحدث!",
+        getInTouchTitle: "تواصل معي",
+        sendMessage: "إرسال الرسالة",
+        formNote: "هذا نموذج تجريبي - اربطه بخدمة البريد الإلكتروني المفضلة لديك"
+      }
+    };
+
+    let currentLang = 'en';
+
+    // Particles background
+    function createParticles() {
+      const particles = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'absolute w-1 h-1 bg-cyan-400 rounded-full opacity-20';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particle.style.animation = `float ${particle.style.animationDuration} ease-in-out infinite`;
+        particles.appendChild(particle);
+      }
+    }
+
+    // Populate skills
+    function populateSkills() {
+      const grid = document.getElementById('skillsGrid');
+      DATA.skills.forEach((skill, index) => {
+        const skillCard = document.createElement('div');
+        skillCard.className = 'skill-card glass p-6 rounded-2xl text-center cursor-pointer transform transition-all duration-300 hover:scale-105';
+        skillCard.innerHTML = `
+          <div class="text-4xl mb-3">${skill.icon}</div>
+          <div class="text-sm font-medium text-white">${skill.name}</div>
+          <div class="w-full bg-white/20 rounded-full h-1 mt-3">
+            <div class="progress-bar bg-gradient-to-r from-cyan-400 to-purple-400 h-1 rounded-full" style="--progress: ${skill.level}%"></div>
+          </div>
+        `;
+        skillCard.style.animationDelay = (index * 0.1) + 's';
+        grid.appendChild(skillCard);
+      });
+    }
+
+    // Populate projects
+    function populateProjects() {
+      const grid = document.getElementById('projectsGrid');
+      DATA.projects.forEach((project, index) => {
+        const projectCard = document.createElement('div');
+        projectCard.className = 'project-card glass rounded-2xl overflow-hidden transform transition-all duration-500 hover:scale-105';
+        projectCard.innerHTML = `
+          <div class="p-8">
+            <div class="text-6xl mb-6 text-center">${project.image}</div>
+            <h3 class="text-2xl font-bold mb-4 text-white">${project.title}</h3>
+            <p class="text-white/80 mb-6">${project.description}</p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              ${project.tags.map(tag => `
+                <span class="px-3 py-1 bg-white/20 rounded-full text-xs text-white">${tag}</span>
+              `).join('')}
+            </div>
+            <div class="flex gap-4">
+              <button class="flex-1 bg-gradient-to-r from-cyan-500 to-purple-500 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300">
+                Live Demo
+              </button>
+              <button class="flex-1 glass py-2 rounded-xl text-sm font-medium hover:bg-white/20 transition-all duration-300">
+                Source Code
+              </button>
+            </div>
+          </div>
+        `;
+        projectCard.style.animationDelay = (index * 0.2) + 's';
+        grid.appendChild(projectCard);
+      });
+    }
+
+    // Language toggle
+    function updateLanguage() {
+      const s = strings[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (s[key]) el.textContent = s[key];
+      });
+      
+      document.body.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById('langBtn').textContent = currentLang === 'en' ? 'العربية' : 'English';
+    }
+
+    // Intersection Observer for animations
+    function setupIntersectionObserver() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Animate progress bars
+            entry.target.querySelectorAll('.progress-bar').forEach(bar => {
+              bar.classList.add('animate');
+            });
+            
+            // Add entrance animations
+            entry.target.classList.add('animate-in');
+          }
+        });
+      });
+
+      document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+      });
+    }
+
+    // Smooth scrolling for navigation
+    function setupSmoothScrolling() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    }
+
+    // Form handling
+    function setupForm() {
+      const form = document.getElementById('contactForm');
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Create success animation
+        const button = this.querySelector('button[type="submit"]');
+        const originalText = button.innerHTML;
+        
+        button.innerHTML = '✨ Message Sent!';
+        button.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+        
+        setTimeout(() => {
+          button.innerHTML = originalText;
+          button.style.background = '';
+          form.reset();
+        }, 2000);
+        
+        // Show notification
+        showNotification(strings[currentLang].formNote || 'Thanks for your message! This is a demo form.');
+      });
+    }
+
+    // Show notification
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 z-50 glass p-4 rounded-xl transform translate-x-full transition-transform duration-300';
+      notification.innerHTML = `
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span class="text-white text-sm">${message}</span>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    // Typewriter effect for name
+    function typewriterName() {
+      const nameElement = document.getElementById('typewriter-name');
+      const cursorElement = document.getElementById('cursor');
+      const fullName = 'Menna AbdElGawad';
+      let index = 0;
+      
+      nameElement.textContent = '';
+      
+      function typeNextChar() {
+        if (index < fullName.length) {
+          nameElement.textContent += fullName.charAt(index);
+          index++;
+          setTimeout(typeNextChar, 100); // 100ms delay between each character
+        } else {
+          // Keep cursor blinking at the end - don't hide it
+          cursorElement.style.animation = 'blink 1s infinite';
+        }
+      }
+      
+      setTimeout(typeNextChar, 1000); // Start after 1 second
+    }
+
+    // Scroll to contact function
+    function scrollToContact() {
+      const contactSection = document.getElementById('contact');
+      contactSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // Scroll to projects function
+    function scrollToProjects() {
+      const projectsSection = document.getElementById('projects');
+      projectsSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // Photo upload handling
+    function setupPhotoUpload() {
+      const photoInput = document.getElementById('photoInput');
+      const profilePhoto = document.getElementById('profilePhoto');
+      const initials = document.getElementById('initials');
+      
+      photoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            profilePhoto.src = e.target.result;
+            initials.classList.add('hidden');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      
+      // The photo will show by default with the placeholder
+      // Remove this error handler as we have a default placeholder
+    }
+
+    // Parallax effect
+    function setupParallax() {
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        
+        const particles = document.getElementById('particles');
+        if (particles) {
+          particles.style.transform = `translateY(${rate}px)`;
+        }
+      });
+    }
+
+    // Interactive hover effects for skills
+    function setupSkillInteractions() {
+      setTimeout(() => {
+        document.querySelectorAll('.skill-card').forEach((card, index) => {
+          card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.05)';
+            this.style.boxShadow = '0 20px 40px rgba(59, 130, 246, 0.3)';
+          });
+          
+          card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '';
+          });
+        });
+      }, 1000);
+    }
+
+    // Project card interactions
+    function setupProjectInteractions() {
+      setTimeout(() => {
+        document.querySelectorAll('.project-card').forEach(card => {
+          card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) rotateY(5deg)';
+            this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.3)';
+          });
+          
+          card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) rotateY(0deg)';
+            this.style.boxShadow = '';
+          });
+        });
+      }, 1000);
+    }
+
+    // Navigation highlighting
+    function setupNavHighlight() {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (scrollY >= (sectionTop - 200)) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('text-cyan-400');
+          link.classList.add('text-white/80');
+          if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('text-cyan-400');
+            link.classList.remove('text-white/80');
+          }
+        });
+      });
+    }
+
+    // Add floating elements
+    function createFloatingElements() {
+      const floatingElements = ['💻', '🚀', '⚡', '🎨', '🤖', '📊'];
+      
+      floatingElements.forEach((emoji, index) => {
+        const element = document.createElement('div');
+        element.className = 'fixed text-4xl opacity-10 pointer-events-none z-0';
+        element.textContent = emoji;
+        element.style.left = Math.random() * 100 + '%';
+        element.style.top = Math.random() * 100 + '%';
+        element.style.animation = `float ${6 + Math.random() * 4}s ease-in-out infinite`;
+        element.style.animationDelay = index * 0.5 + 's';
+        document.body.appendChild(element);
+      });
+    }
+
+    // Add cursor trail effect
+    function setupCursorTrail() {
+      const trail = [];
+      const trailLength = 20;
+      
+      for (let i = 0; i < trailLength; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'fixed w-2 h-2 bg-cyan-400 rounded-full pointer-events-none z-50 opacity-0';
+        document.body.appendChild(dot);
+        trail.push(dot);
+      }
+      
+      document.addEventListener('mousemove', (e) => {
+        trail.forEach((dot, index) => {
+          setTimeout(() => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            dot.style.opacity = (trailLength - index) / trailLength * 0.5;
+            dot.style.transform = `scale(${(trailLength - index) / trailLength})`;
+          }, index * 20);
+        });
+      });
+    }
+
+    // Initialize everything
+    function init() {
+      // Set current year
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+      
+      // Create visual effects
+      createParticles();
+      createFloatingElements();
+      setupCursorTrail();
+      
+      // Populate content
+      populateSkills();
+      populateProjects();
+      
+      // Setup interactions
+      setupSmoothScrolling();
+      setupForm();
+      setupParallax();
+      setupPhotoUpload();
+      setupSkillInteractions();
+      setupProjectInteractions();
+      setupNavHighlight();
+      setupIntersectionObserver();
+      
+      // Language system
+      updateLanguage();
+      document.getElementById('langBtn').addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'ar' : 'en';
+        updateLanguage();
+      });
+      
+      // Typewriter effect on load
+      setTimeout(typewriterName, 500);
+      
+      // Add entrance animations
+      setTimeout(() => {
+        document.querySelectorAll('.skill-card, .project-card').forEach((el, index) => {
+          setTimeout(() => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'all 0.6s ease';
+            setTimeout(() => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+            }, 100);
+          }, index * 100);
+        });
+      }, 1000);
+    }
+
+    // Make functions globally accessible
+    window.scrollToContact = scrollToContact;
+    window.scrollToProjects = scrollToProjects;
+
+    // Start everything when DOM is ready
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
